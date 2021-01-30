@@ -16,3 +16,16 @@ export const removeError = () => ({
 
 );
 
+
+export const starLoading = () => ({
+        
+    type: types.uiStarLoading
+
+});
+
+export const finishLoading = () => ({
+        
+    type: types.uiFinishLoading
+
+});
+
