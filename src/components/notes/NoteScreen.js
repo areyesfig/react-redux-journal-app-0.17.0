@@ -1,15 +1,19 @@
 import React, { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { useForm } from '../../hooks/useForm';
+import { useDispatch, useSelector } from 'react-redux'
 import { NotesAppBar } from './NotesAppBar'
+import { useForm } from '../../hooks/useForm';
+import { activeNotes, startDeleting } from '../../actions/notes';
 
 export const NoteScreen = () => {
+    
+
+    const dispatch = useDispatch();
 
     const {active:note} = useSelector(state => state.notes);
 
     const [formValues, handleInputChange , reset] = useForm(note);
 
-    const {body, title } = formValues;
+    const {body, title , id } = formValues;
 
     const activeId = useRef(note.id);
 
@@ -19,8 +23,18 @@ export const NoteScreen = () => {
             reset( note );
             activeId.current = note.id
         }
-    }, [note, reset])
+    }, [note, reset]);
 
+
+    useEffect(() => {
+       
+        dispatch( activeNotes( formValues.id, {...formValues } ) )
+
+    }, [formValues,dispatch]);
+
+    const handleDelete = () => {
+        dispatch( startDeleting( id ));
+    }
 
     return (
         <div className="notes__main-content">
@@ -31,6 +45,7 @@ export const NoteScreen = () => {
 
                 <input 
                     type="text"
+                    name="title"
                     placeholder="Some awesome title"
                     className="notes__title-input"
                     autoComplete="off"
@@ -41,6 +56,7 @@ export const NoteScreen = () => {
                 <textarea
                     placeholder="What happened today"
                     className="notes__textarea"
+                    name = "body"
                     value= { body }
                     onChange={ handleInputChange }
                 ></textarea>
@@ -50,7 +66,7 @@ export const NoteScreen = () => {
                    && (
                         <div className="notes__image">
                             <img 
-                                src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+                                src={note.url}
                                 alt="imagen"
                             />
                         </div>
@@ -59,6 +75,11 @@ export const NoteScreen = () => {
 
 
             </div>
+
+            <button className="btn btn-danger"
+            onClick={handleDelete}>
+                Delete
+            </button>
 
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm';
 import {useDispatch, useSelector} from 'react-redux';
-import { login, starLoginEmailPassword, startGoogleLogin } from '../../actions/auth';
+import {starLoginEmailPassword, startGoogleLogin } from '../../actions/auth';
 
 export const LoginScreen = () => {
 
@@ -33,7 +33,8 @@ export const LoginScreen = () => {
         <>
             <h3 className="auth__title">Login</h3>
 
-            <form onSubmit= {handleLogin}>
+            <form onSubmit= {handleLogin}
+            className="animate__animated animate__fadeIn animate_faster">
 
                 <input 
                     type="text"

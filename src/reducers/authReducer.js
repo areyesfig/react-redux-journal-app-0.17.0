@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { types } from '../types/types';
 
 export const authReducer = (state = {}, action ) => {
